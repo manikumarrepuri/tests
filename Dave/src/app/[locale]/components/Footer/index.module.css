@@ -1,0 +1,84 @@
+.footer {
+  gap: 24px;
+  border-color: var(--CVL-alt-blue);
+  width: 100%;
+  border-top: 1px solid var(--CVL-alt-blue);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  background-color: var(--CVL-blue);
+}
+
+.tabs {
+  --tab-height: 46px;
+  display: flex;
+  justify-content: center;
+  border: none;
+  position: absolute;
+  width: 100%;
+  height: var(--tab-height);
+  top: calc(var(--tab-height) * -1);
+}
+
+.tab {
+  all: initial;
+  display: flex;
+  font-family: inherit;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  max-width: 250px;
+  width: 100%;
+  box-sizing: border-box;
+
+  font-size: 1rem;
+  color: var(--white);
+  background-color: var(--CVL-alt-blue);
+  cursor: pointer;
+  padding: 23px 16px;
+  border: 1px solid var(--CVL-alt-blue);
+}
+
+.tab:has(input:checked) {
+  background-color: var(--CVL-blue);
+  border-bottom: 1px solid var(--CVL-blue);
+}
+
+.tab > input {
+  display: none;
+}
+
+.listWrapper {
+  position: relative;
+  margin: 27px 10px;
+  min-height: 200px;
+}
+
+.list {
+  color: var(--white);
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 500px;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  height: 0;
+  visibility: hidden;
+}
+.visible {
+  opacity: 1;
+  height: auto;
+  visibility: visible;
+  pointer-events: auto;
+  position: relative;
+}
+
+.listItem {
+  flex: 0 0 50%;
+  padding-bottom: 5px;
+  max-width: 250px;
+  list-style: none;
+  cursor: pointer;
+}
+.listItem:hover {
+  color: var(--CVL-alt-blue);
+}

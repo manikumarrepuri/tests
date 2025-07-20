@@ -1,0 +1,44 @@
+:root {
+  --background: transparent linear-gradient(180deg, #005DA4 0%, #003777 100%) 0% 0% no-repeat padding-box;;
+  --foreground: ##FFF;
+}
+html{
+  font-size: 62.5%; // 1rem = 10px
+}
+
+html,
+body {
+  max-width: 100vw;
+  height: 100%;
+  margin: 0;
+  overflow: auto; 
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.semibold {
+  font-weight: 600;
+}
+
+.bold {
+  font-weight: 700;
+}
+.error {
+  color: red;
+  font-size: 1.4rem;
+  margin-top: 0.5rem;
+}

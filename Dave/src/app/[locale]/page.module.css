@@ -1,0 +1,39 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 100vh;
+  gap: 70px;
+  overflow: hidden;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 500px;
+  width: 100%;
+  gap: 37px;
+  height: 100%;
+  flex: 1;
+  margin-top: 50px;
+}
+
+@media (max-width: 500px) {
+  .main {
+    padding: 20px;
+  }
+}
+
+.imageWrapper {
+  width: 200px;
+  height: 76px;
+  position: relative;
+}
+@media (min-width: 500px) {
+  .imageWrapper {
+    width: 350px;
+    height: 133px;
+  }
+}

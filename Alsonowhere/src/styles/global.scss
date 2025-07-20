@@ -1,0 +1,20 @@
+@use "./theme" as *;
+
+@use "./normalise.scss";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  color: $White;
+}
+
+.rtl {
+  direction: rtl;
+}

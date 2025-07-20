@@ -1,0 +1,120 @@
+.job-search-form {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-auto-rows: auto;
+  gap: 20px;
+  max-width: 500px;
+  margin: 0 auto;
+  font-family: var(--font-open-sans);
+  color: #fff;
+
+  &__row {
+    grid-column: 1 / span 10;
+  }
+
+  &__column_location {
+    grid-column: 1 / span 6;
+    position: relative;
+  }
+
+  &__column_distance {
+    grid-column: 7 / span 4;
+  }
+
+  &__label {
+    text-align: left;
+    font: normal normal normal 16px/22px Open Sans;
+    letter-spacing: 0px;
+    color: #ffffff;
+  }
+
+  &__input,
+  &__select {
+    padding: 11px 6px 11px 10px;
+    border: none;
+    text-align: left;
+    font: normal normal normal 16px/22px Open Sans;
+    letter-spacing: 0px;
+    color: #333333;
+    display: block;
+    width: 100%;
+    margin-top: 5px;
+  }
+
+  &__input::placeholder,
+  &__select::placeholder {
+    text-align: left;
+    font: normal normal normal 16px/22px Open Sans;
+    letter-spacing: 0px;
+    color: #333333;
+  }
+
+  &__select {
+    option {
+      font: normal normal normal 16px/22px Open Sans;
+    }
+  }
+
+  &__error {
+    color: #ffbaba;
+    font-size: 12px;
+    margin-top: 2px;
+  }
+
+  &__button {
+    background-color: #41b23d;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 5px;
+    text-align: left;
+    font: normal normal normal 16px/22px Open Sans;
+    letter-spacing: 0px;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s all ease-in-out;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    grid-column: 7 / span 4;
+
+    @media (max-width: 768px) {
+      grid-column: 6 / span 5;
+    }
+
+    @media (max-width: 380px) {
+      grid-column: 5 / span 6;
+    }
+
+    &:hover {
+      background-color: #36972e;
+    }
+  }
+}
+
+.job-search-form__suggestions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: auto;
+  background: white;
+  position: absolute;
+  width: 100%;
+  z-index: 10;
+
+  li {
+    padding: 8px;
+    cursor: pointer;
+    color: #333333;
+
+    &:hover {
+      background: #eee;
+    }
+  }
+}

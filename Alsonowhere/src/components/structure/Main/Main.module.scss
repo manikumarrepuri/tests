@@ -1,0 +1,33 @@
+.main {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+
+  @media (max-width: 600px) {
+    padding-right: 19px;
+    padding-left: 21px;
+  }
+}
+
+.filters {
+  display: flex;
+  flex-wrap: nowrap;
+
+  &__location {
+    flex-grow: 1;
+  }
+
+  &__distance {
+    width: 200px;
+    padding-left: 20px;
+  }
+}
+
+.controls {
+  display: flex;
+  justify-content: flex-end;
+
+  &__button {
+    width: 180px;
+  }
+}

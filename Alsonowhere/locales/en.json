@@ -1,0 +1,19 @@
+{
+  "form": {
+    "keywords": "Keywords / Job Title / Job Ref",
+    "keywordsPlaceholder": "e.g. Sales Executive",
+
+    "location": "Location",
+    "locationPlaceholder": "e.g. town or postcode",
+
+    "distance": "Distance",
+    "distancePlaceholder": "15 miles",
+
+    "controls": "Find jobs now"
+  },
+
+  "tabs": {
+    "location": "Jobs by Location",
+    "industry": "Jobs by industry"
+  }
+}

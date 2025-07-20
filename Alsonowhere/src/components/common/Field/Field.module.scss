@@ -1,0 +1,63 @@
+@use "../../../styles/theme" as *;
+
+.label {
+  display: block;
+  position: relative;
+  width: 100%;
+}
+
+.input {
+  display: block;
+  width: 100%;
+  height: $size;
+  margin-bottom: 26px;
+  padding: 0 10px;
+  border: none;
+  color: $CVL_Black;
+
+  &__label {
+    display: block;
+    height: 23px;
+    margin-bottom: 5px;
+    font-size: 16px;
+    line-height: 23px;
+    color: $White;
+  }
+}
+
+.autocomplete {
+  list-style: none;
+  position: absolute;
+  z-index: 1;
+  top: 73px;
+  left: 0;
+  min-width: 100%;
+  max-height: 45px * 6;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+
+  &__item {
+    height: 45px;
+    padding: 0 10px;
+    background-color: $White;
+    line-height: 45px;
+    color: $Black;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $CVL_Blue_Lite;
+      color: $White;
+    }
+
+    &.active {
+      background-color: $CVL_Blue;
+      color: $White;
+    }
+  }
+
+  &__loading {
+    text-align: right;
+  }
+}

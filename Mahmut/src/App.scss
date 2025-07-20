@@ -1,0 +1,897 @@
+// =============================================================================
+// SCSS VARIABLES & CONFIGURATION
+// =============================================================================
+
+// Color Palette
+$color-primary: #005da4; // Keep for compatibility, but use gradient instead
+$color-primary-gradient: linear-gradient(180deg, #025BA2 0%, #004385 100%);
+$color-secondary: #4488d5;
+$color-accent: #5bb543;
+$color-dark: #003777;
+$color-white: #ffffff;
+$color-error: #ff4444;
+$color-error-bg: #fff5f5;
+$color-disabled: #cccccc;
+$color-text: #333333;
+
+// Typography
+$font-family-primary: 'Open Sans', Arial, sans-serif;
+$font-size-base: 16px;
+$font-size-small: 14px;
+$font-size-large: 18px;
+$line-height-base: 1.5;
+$line-height-tight: 1.2;
+
+// Spacing System
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 12px;
+$spacing-ml: 20px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-xxl: 48px;
+$spacing-xxxl: 56px;
+$spacing-xxxxl: 120px;
+
+// Breakpoints (Mobile-first approach)
+$breakpoints: (
+  xs: 320px,
+  // Extra small mobile
+  sm: 480px,
+  // Small mobile
+  md: 768px,
+  // Tablet
+  lg: 1024px,
+  // Desktop
+  xl: 1366px,
+  // Large desktop
+  xxl: 1920px, // Extra large desktop
+);
+
+// Touch-friendly minimum sizes
+$touch-target-min: 44px;
+$input-height-desktop: 45px;
+
+// Border radius
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+
+// Transitions
+$transition-fast: 0.2s ease;
+$transition-base: 0.3s ease;
+$transition-slow: 0.5s ease;
+
+// Z-index scale
+$z-index-dropdown: 1000;
+$z-index-modal: 2000;
+$z-index-tooltip: 3000;
+
+// =============================================================================
+// SCSS MIXINS & FUNCTIONS
+// =============================================================================
+
+// Responsive breakpoint mixin
+@mixin respond-to($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (min-width: map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @warn "Unknown breakpoint: #{$breakpoint}";
+  }
+}
+
+// Touch-friendly button mixin
+@mixin touch-target($min-size: $touch-target-min) {
+  min-height: $min-size;
+  min-width: $min-size;
+  padding: $spacing-sm $spacing-md;
+}
+
+// Flexbox utilities
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin space-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-start {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+// Input styling mixin
+@mixin input-base {
+  width: 100%;
+  font-size: $font-size-base;
+  font-family: $font-family-primary;
+  border: none;
+  box-sizing: border-box;
+  transition: all $transition-base;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba($color-accent, 0.2);
+  }
+
+  &:disabled {
+    background-color: $color-disabled;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+}
+
+// Button styling mixin
+@mixin button-base($bg-color: $color-accent, $text-color: $color-white) {
+  background-color: $bg-color;
+  color: $text-color;
+  border: none;
+  border-radius: $border-radius-sm;
+  font-family: $font-family-primary;
+  font-weight: 600;
+  font-size: $font-size-base;
+  cursor: pointer;
+  transition: all $transition-base;
+  @include touch-target;
+
+  &:hover:not(:disabled) {
+    background-color: darken($bg-color, 10%);
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    background-color: $color-disabled;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+}
+
+// Animation mixins
+@mixin fade-in($duration: $transition-base) {
+  animation: fadeIn $duration ease;
+}
+
+@mixin spin {
+  animation: spin 1s linear infinite;
+}
+
+// =============================================================================
+// GLOBAL STYLES
+// =============================================================================
+
+// Loading Spinner
+.loading-spinner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  .spinner {
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  &.spinner-small .spinner {
+    width: 16px;
+    height: 16px;
+  }
+
+  &.spinner-medium .spinner {
+    width: 24px;
+    height: 24px;
+  }
+
+  &.spinner-large .spinner {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// Screen Reader Only
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Error Boundary
+.error-boundary {
+  @include flex-center;
+  min-height: 200px;
+  padding: $spacing-xl;
+  text-align: center;
+
+  .error-content {
+    max-width: 400px;
+
+    h2 {
+      color: $color-error;
+      margin-bottom: $spacing-md;
+    }
+
+    p {
+      margin-bottom: $spacing-lg;
+      color: $color-text;
+    }
+  }
+
+  .error-retry-button {
+    @include button-base($color-primary, $color-white);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: $font-size-base;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+body {
+  background: $color-primary-gradient;
+  margin: 0;
+  font-family: $font-family-primary;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// =============================================================================
+// LAYOUT COMPONENTS
+// =============================================================================
+
+.container {
+  @include flex-column;
+  @include space-between;
+  height: 100vh;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $spacing-lg $spacing-md 0;
+
+  @include respond-to(xl) {
+    padding: 0 $spacing-lg 0;
+  }
+
+  @include respond-to(xxl) {
+    padding: $spacing-lg $spacing-lg 0;
+  }
+}
+
+// =============================================================================
+// LOGO COMPONENT
+// =============================================================================
+
+.logo {
+  width: 180px;
+  height: auto;
+  margin: $spacing-lg 0 $spacing-xl 0;
+  background: transparent 0% 0% no-repeat padding-box;
+  opacity: 1;
+
+  @include respond-to(sm) {
+    width: 200px;
+  }
+
+  @include respond-to(md) {
+    width: 250px;
+    margin-bottom: $spacing-xxl;
+  }
+
+  @include respond-to(lg) {
+    width: 300px;
+  }
+
+  @include respond-to(xl) {
+    width: 370px;
+    margin-bottom: $spacing-xxxl;
+  }
+}
+
+// =============================================================================
+// FORM COMPONENTS
+// =============================================================================
+
+.search-form {
+  width: 100%;
+  max-width: 500px;
+  @include flex-column;
+  gap: 24px;
+
+  @include respond-to(sm) {
+    gap: $spacing-lg;
+  }
+
+  @include respond-to(lg) {
+    max-width: 500px;
+  }
+}
+
+.label {
+  color: $color-white;
+  font-family: $font-family-primary;
+  font-size: $font-size-base;
+  font-weight: 400;
+  line-height: $line-height-tight;
+  margin-bottom: $spacing-sm;
+  display: block;
+}
+
+.input,
+.dropdown {
+  @include input-base;
+  height: $input-height-desktop;
+  padding: $spacing-md;
+  color: $color-text;
+  background-color: $color-white;
+
+  @include respond-to(md) {
+    height: $input-height-desktop;
+    padding: $spacing-sm $spacing-md;
+  }
+}
+
+.input-error {
+  border: 2px solid $color-error !important;
+  background-color: $color-error-bg !important;
+
+  &:focus {
+    box-shadow: 0 0 0 2px rgba($color-error, 0.2) !important;
+  }
+}
+
+.dropdown {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: $color-white
+    url('data:image/svg+xml;utf8,<svg fill="black" height="6" viewBox="0 0 24 24" width="8" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>')
+    no-repeat right $spacing-md center/18px 18px;
+  padding-right: $spacing-xxl;
+
+  &::-ms-expand {
+    display: none;
+  }
+}
+
+.input::placeholder,
+.dropdown::placeholder {
+  color: lighten($color-text, 30%);
+  font-family: $font-family-primary;
+  font-size: $font-size-base;
+  font-weight: 400;
+  opacity: 1;
+}
+
+.location-distance-row {
+  @include flex-row;
+  gap: $spacing-md;
+  margin-top: $spacing-xs;
+
+  @include respond-to(sm) {
+    flex-direction: row;
+    gap: $spacing-md;
+  }
+
+  @include respond-to(md) {
+    gap: $spacing-ml;
+  }
+}
+
+.location-col {
+  width: 100%;
+
+  @include respond-to(sm) {
+    flex: 1;
+  }
+
+  @include respond-to(lg) {
+    width: 300px;
+    flex: 1 1 auto;
+  }
+}
+
+// Location autocomplete styles
+.location-input-container {
+  position: relative;
+  width: 100%;
+}
+
+.location-loading {
+  position: absolute;
+  right: $spacing-md;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.spinner-small {
+  width: 16px;
+  height: 16px;
+  border: 2px solid $color-primary;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  @include spin;
+}
+
+.location-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: $color-white;
+  border: 1px solid $color-disabled;
+  border-radius: $border-radius-sm;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: $z-index-dropdown;
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-top: 2px;
+  @include fade-in;
+
+  // Improve visibility and interaction
+  border: 2px solid $color-accent;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+
+  // Scrollbar styling
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #cccccc;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar:horizontal {
+    display: none;
+  }
+}
+
+.location-suggestion {
+  padding: $spacing-md;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+  transition: all $transition-fast;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover,
+  &.selected {
+    background-color: lighten($color-accent, 45%);
+    color: $color-dark;
+    transform: translateX(2px);
+  }
+
+  &:active {
+    background-color: lighten($color-accent, 35%);
+    transform: translateX(1px);
+  }
+
+  .location-name {
+    font-weight: 500;
+    color: $color-text;
+    flex: 1;
+    transition: color $transition-fast;
+  }
+
+  &:hover .location-name,
+  &.selected .location-name {
+    color: $color-dark;
+    font-weight: 600;
+  }
+
+  .location-type {
+    font-size: $font-size-small;
+    color: #666;
+    background-color: #e9ecef;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-left: $spacing-sm;
+  }
+}
+
+.no-suggestions {
+  padding: $spacing-md;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+}
+
+.distance-col {
+  width: 100%;
+
+  @include respond-to(sm) {
+    width: 40%;
+    min-width: 120px;
+  }
+
+  @include respond-to(lg) {
+    width: 180px;
+  }
+}
+
+.find-btn {
+  @include button-base;
+  height: $input-height-desktop;
+  margin-top: $spacing-sm;
+  max-width: 200px;
+  width: 100%;
+  @include flex-center;
+  gap: $spacing-sm;
+  align-self: flex-end;
+
+  @include respond-to(sm) {
+    height: $input-height-desktop;
+    max-width: 180px;
+  }
+
+  &.loading {
+    background-color: darken($color-accent, 10%);
+  }
+
+  img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+  }
+
+  span {
+    font-family: $font-family-primary;
+    font-weight: 600;
+    font-size: $font-size-base;
+    color: $color-white;
+    line-height: $line-height-tight;
+  }
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid $color-white;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  @include spin;
+}
+
+.error-message {
+  color: $color-error;
+  font-size: $font-size-small;
+  margin-top: $spacing-xs;
+  font-weight: 500;
+  @include fade-in;
+}
+
+// =============================================================================
+// TABS COMPONENTS
+// =============================================================================
+
+.tabs-bar {
+  max-width: 500px;
+  margin: 0 auto;
+  @include flex-center;
+  //width: 100%;
+  margin-top: $spacing-xxxxl;
+  gap: 0;
+  text-align: center;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+
+  @include respond-to(sm) {
+    margin-top: $spacing-xxxl;
+  }
+
+  @include respond-to(xl) {
+    margin-top: $spacing-xxl;
+  }
+}
+
+.tab {
+  width: 50%;
+  max-width: 250px;
+  height: $input-height-desktop;
+  background-color: $color-secondary;
+  color: $color-white;
+  border: 2px solid $color-secondary;
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+  cursor: pointer;
+  transition: all $transition-base;
+  font-family: $font-family-primary;
+  font-weight: 400;
+  font-size: $font-size-base;
+  line-height: $line-height-tight;
+  @include touch-target;
+
+  @include respond-to(sm) {
+    height: $input-height-desktop;
+    &:first-child,
+    &:last-child {
+      border-radius: 0;
+    }
+  }
+
+  @include respond-to(lg) {
+    width: 250px;
+    max-width: 250px;
+    padding-left: $spacing-lg;
+    text-align: left;
+    border-radius: $border-radius-sm 0 0 0;
+    border-left: 2px solid $color-secondary;
+    border-right: 2px solid $color-secondary;
+
+    &:first-child {
+      border-radius: $border-radius-sm 0 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 $border-radius-sm 0 0;
+    }
+  }
+
+  &.active {
+    background-color: $color-dark;
+    border-bottom: none;
+    position: relative;
+    z-index: 2;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -2px;
+      height: 4px;
+      background: $color-dark;
+      z-index: 3;
+    }
+  }
+
+  &:hover:not(.active) {
+    background-color: lighten($color-secondary, 10%);
+  }
+}
+
+.tab-content {
+  @include flex-center;
+  background-color: $color-dark;
+  border-top: 2px solid $color-secondary;
+  color: $color-white;
+  @include flex-column;
+  border-radius: 0 0 $border-radius-md $border-radius-md;
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  padding: $spacing-lg 0;
+  box-sizing: border-box;
+  position: relative;
+
+  @include respond-to(xs) {
+    padding-left: $spacing-md;
+    padding-right: $spacing-md;
+  }
+  @include respond-to(sm) {
+    padding-left: $spacing-lg;
+    padding-right: $spacing-lg;
+  }
+  @include respond-to(md) {
+    padding-left: $spacing-xl;
+    padding-right: $spacing-xl;
+  }
+  @include respond-to(lg) {
+    padding-left: 0;
+    padding-right: $spacing-xxl;
+  }
+}
+
+.tab-content-inner {
+  display: flex;
+  flex-direction: row;
+  //gap: $spacing-xl;
+  justify-content: space-around;
+  width: 100%;
+  max-width: none;
+  padding: 0;
+  list-style: none;
+  @include respond-to(sm) {
+    justify-content: space-evenly;
+  }
+  @include respond-to(lg) {
+    justify-content: center;
+  }
+}
+
+.tab-content-inner ul {
+  list-style: none;
+  padding: 0;
+  width: auto;
+
+  @include respond-to(lg) {
+    width: 218px;
+    margin: 0;
+  }
+  &:nth-child(2) {
+    padding-left: $spacing-lg;
+  }
+}
+
+.tab-content-inner li {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  color: #ffffff;
+  letter-spacing: 0;
+  line-height: 26px;
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+  text-align: left;
+  display: block;
+  min-height: unset;
+  transition: none;
+}
+
+// =============================================================================
+// RESPONSIVE OVERRIDES
+// =============================================================================
+
+@include respond-to(xs) {
+  .tabs-bar {
+    width: calc(100% + #{$spacing-xl});
+    max-width: calc(100% + #{$spacing-xl});
+    margin-left: -#{$spacing-md};
+    margin-right: -#{$spacing-md};
+    border-radius: 0;
+    box-sizing: content-box;
+  }
+  .content{
+    width: 100%;
+    padding: 0 15px;
+  }
+
+}
+@include respond-to(sm) {
+  .content{
+    width: auto;
+  }
+}
+
+
+// =============================================================================
+// ANIMATIONS
+// =============================================================================
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// =============================================================================
+// ACCESSIBILITY & FOCUS MANAGEMENT
+// =============================================================================
+
+// Focus visible for keyboard navigation
+*:focus-visible {
+  outline: 2px solid $color-accent;
+  outline-offset: 2px;
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+  .input,
+  .dropdown {
+    border: 2px solid $color-text;
+  }
+
+  .find-btn {
+    border: 2px solid $color-white;
+  }
+}
+
+// =============================================================================
+// PRINT STYLES
+// =============================================================================
+
+@media print {
+  .find-btn,
+  .tab {
+    display: none;
+  }
+
+  body {
+    background-color: $color-white;
+    color: $color-text;
+  }
+
+  .container {
+    padding: 0;
+  }
+
+}
+.logo-container {
+  width: 100%;
+  text-align: center;
+ } 

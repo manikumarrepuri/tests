@@ -1,0 +1,51 @@
+@use "@/styles/_theme.scss" as *;
+
+.tabs {
+  position: relative;
+  width: 100%;
+
+  &::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 45px;
+    width: 100%;
+    border-bottom: 1px solid $CVL_Alt_Blue;
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: nowrap;
+    list-style: none;
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 0;
+
+    &_item {
+      width: 50%;
+      height: 46px;
+      padding: 0 22px;
+      background-color: $CVL_Alt_Blue;
+      border: 1px solid $CVL_Alt_Blue;
+      border-bottom: none;
+      color: $White;
+      line-height: 46px;
+      white-space: nowrap;
+      cursor: pointer;
+
+      &:first-child {
+        border-top-left-radius: 3px;
+      }
+
+      &:last-child {
+        border-top-right-radius: 3px;
+      }
+
+      &.active {
+        background-color: $CVL_Blue;
+      }
+    }
+  }
+}
