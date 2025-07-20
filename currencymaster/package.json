@@ -1,0 +1,16 @@
+{
+  "name": "currencymaster",
+  "version": "1.0.0",
+  "description": "Currency conversion library using exchangerate.host",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "test": "node dist/index.js"
+  },
+  "keywords": ["currency", "conversion"],
+  "author": "",
+  "license": "MIT"
+}
